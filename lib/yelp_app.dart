@@ -12,6 +12,13 @@ class YelpApp extends StatelessWidget {
         brightness: Brightness.dark,
         primaryColor: Colors.white,
         fontFamily: 'Georgia',
+        dividerTheme: const DividerThemeData(
+          space: 0.0,
+          thickness: 0.0,
+          color: Colors.grey,
+          indent: 30,
+          endIndent: 30,
+        ),
         textTheme: const TextTheme(
           headline1: TextStyle(
             fontSize: 19.0,
@@ -19,9 +26,15 @@ class YelpApp extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
           bodyText1: TextStyle(
-            fontSize: 14.0,
+            fontSize: 15.0,
             color: Colors.black,
-            fontWeight: FontWeight.bold,
+            fontWeight: FontWeight.normal,
+          ),
+          bodyText2: TextStyle(
+            fontSize: 15.0,
+            color: Colors.black,
+            fontWeight: FontWeight.normal,
+            fontStyle: FontStyle.italic,
           ),
         ),
       ),
