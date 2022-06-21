@@ -96,13 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ],
                   ),
                 ),
-                Divider(
-                  height: dividerTheme.space,
-                  thickness: dividerTheme.thickness,
-                  color: dividerTheme.color,
-                  indent: dividerTheme.indent,
-                  endIndent: dividerTheme.endIndent,
-                ),
+                const YelpDivider(),
                 Padding(
                   padding: const EdgeInsets.all(_paddingAmount),
                   child: Text(
@@ -125,12 +119,55 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                Divider(
-                  height: dividerTheme.space,
-                  thickness: dividerTheme.thickness,
-                  color: dividerTheme.color,
-                  indent: dividerTheme.indent,
-                  endIndent: dividerTheme.endIndent,
+                const YelpDivider(),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      top: _paddingAmount,
+                      left: _paddingAmount,
+                      bottom: 20.0,
+                  ),
+                  child: Text(
+                    'Overall Rating',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: _paddingAmount,
+                      left: _paddingAmount,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Text(
+                        snapshot.data?.rating != null
+                            ? snapshot.data!.rating.toStringAsFixed(1)
+                            : '0.0',
+                        style: const TextStyle(
+                          fontSize: 35.0,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.normal,
+                        ),
+                      ),
+                      Transform(
+                        transform: Matrix4.translationValues(0.0, 2.0, 0.0),
+                        child: const Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                          size: 20.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const YelpDivider(),
+                const ExpansionTile(
+                    title: Text('Hello'),
+                  children: [
+                    Text('Hello')
+                  ],
                 ),
               ],
             ),
@@ -143,6 +180,22 @@ class _HomeScreenState extends State<HomeScreen> {
           body: Center(child: CircularProgressIndicator()),
         );
       },
+    );
+  }
+}
+
+class YelpDivider extends StatelessWidget {
+  const YelpDivider({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final dividerTheme = Theme.of(context).dividerTheme;
+    return Divider(
+      height: dividerTheme.space,
+      thickness: dividerTheme.thickness,
+      color: dividerTheme.color,
+      indent: dividerTheme.indent,
+      endIndent: dividerTheme.endIndent,
     );
   }
 }

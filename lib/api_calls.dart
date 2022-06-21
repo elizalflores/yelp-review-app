@@ -21,6 +21,7 @@ class YelpCall {
 class Restaurant {
   final String name;
   final String imageUrl;
+  final double rating;
   final String price;
 
   final Location location;
@@ -31,6 +32,7 @@ class Restaurant {
   const Restaurant({
     required this.name,
     required this.imageUrl,
+    required this.rating,
     required this.price,
     required this.location,
     required this.categories,
@@ -41,6 +43,7 @@ class Restaurant {
     return Restaurant(
       name: json['name'],
       imageUrl: json['image_url'],
+      rating: json['rating'],
       price: json['price'],
       location: Location.fromJson(json['location']),
       categories: (json['categories'] as List)
