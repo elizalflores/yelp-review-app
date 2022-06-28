@@ -1,5 +1,5 @@
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:yelp_review/home_screen.dart';
+import 'package:yelp_review/restaurant_screen/restaurant_screen.dart';
 
 void main() {
   testGoldens('DeviceBuilder - multiple scenarios - with onCreate',
@@ -10,7 +10,7 @@ void main() {
             Device.iphone11,
           ])
           ..addScenario(
-            widget: const HomeScreen(restaurantName: 'Normal Restaurant Name'),
+            widget: const RestaurantScreen(restaurantName: 'Normal Restaurant Name', alias: 'north-india-restaurant-san-francisco'),
             name: 'yelp app bar normal title',
           );
 
@@ -26,7 +26,7 @@ void main() {
             Device.iphone11,
           ])
           ..addScenario(
-            widget: const HomeScreen(restaurantName: 'A Really Super Long Restaurant Name'),
+            widget: const RestaurantScreen(restaurantName: 'A Really Super Long Restaurant Name', alias: 'north-india-restaurant-san-francisco'),
             name: 'yelp app bar long title',
           );
 

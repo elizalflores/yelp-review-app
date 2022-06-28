@@ -39,6 +39,8 @@ dependencies:
   expansion_tile_card: ^2.0.0
   flutter_rating_bar: ^4.0.1
   avatars: ^3.0.2
+  location: ^4.4.0
+  intl: ^0.17.0
 
 dev_dependencies:
   flutter_test:

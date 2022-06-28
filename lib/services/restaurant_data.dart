@@ -1,15 +1,14 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 
-class YelpCall {
-  Future<Restaurant> fetchRestaurant() async {
+class RestaurantCalls {
+  Future<Restaurant> fetchRestaurant(String alias) async {
     final response = await http.get(
         Uri.parse(
-            'https://api.yelp.com/v3/businesses/north-india-restaurant-san-francisco'),
+            'https://api.yelp.com/v3/businesses/$alias'),
         headers: {
           'Authorization':
-              'Bearer wigdsJl9SwNA3dZ3S0hjTtXyUZy6iLmQPFcPEkN2J_nVGcQOoPT5g1JCmF4IEjvAmArwWSCFR6Y-0nk_drkVefLFrrKpDA3LsLsP39U13rf3eCqMSffpH-fIu22mYnYx',
+          'Bearer wigdsJl9SwNA3dZ3S0hjTtXyUZy6iLmQPFcPEkN2J_nVGcQOoPT5g1JCmF4IEjvAmArwWSCFR6Y-0nk_drkVefLFrrKpDA3LsLsP39U13rf3eCqMSffpH-fIu22mYnYx',
         });
 
     final responseJson = jsonDecode(response.body);
@@ -27,7 +26,7 @@ class Restaurant {
   final Location location;
 
   final List<Category> categories;
-  final List<Hours> hours;
+  final List<Hours>? hours;
   final List<String>? photos;
 
   const Restaurant({
@@ -37,7 +36,7 @@ class Restaurant {
     required this.price,
     required this.location,
     required this.categories,
-    required this.hours,
+    this.hours,
     this.photos,
   });
 
@@ -51,9 +50,9 @@ class Restaurant {
       categories: (json['categories'] as List)
           .map((categoryJson) => Category.fromJson(categoryJson))
           .toList(),
-      hours: (json['hours'] as List)
+      hours: json.containsKey('hours') ? (json['hours'] as List)
           .map((categoryJson) => Hours.fromJson(categoryJson))
-          .toList(),
+          .toList() : null,
       photos: (json['photos'] as List).map((photo) => photo.toString()).toList(),
     );
   }
@@ -109,112 +108,41 @@ class DisplayAddress {
 
 class Hours {
   final bool isOpenNow;
-  //final List<DailyHours> restaurantHours;
+  final List<DailyHours> restaurantHours;
 
   const Hours({
     required this.isOpenNow,
-    //required this.restaurantHours,
+    required this.restaurantHours,
   });
 
   factory Hours.fromJson(Map<String, dynamic> json) {
     return Hours(
       isOpenNow: json['is_open_now'],
-      /*restaurantHours: (json['open'] as List).map((restaurantHours)
-                          => DailyHours.fromJson(restaurantHours)).toList(),*/
+      restaurantHours: (json['open'] as List).map((restaurantHours)
+                          => DailyHours.fromJson(restaurantHours)).toList(),
     );
   }
 }
 
 class DailyHours {
-  final String opens;
-  final String closes;
-  final String dayOfTheWeek;
+  final bool isOvernight;
+  final String startTime;
+  final String endTime;
+  final int day;
 
   DailyHours({
-    required this.opens,
-    required this.closes,
-    required this.dayOfTheWeek,
+    required this.isOvernight,
+    required this.startTime,
+    required this.endTime,
+    required this.day,
   });
 
   factory DailyHours.fromJson(Map<String, dynamic> json) {
     return DailyHours(
-      opens: json['start'],
-      closes: json['end'],
-      dayOfTheWeek: json['day'],
+      isOvernight: json['is_overnight'],
+      startTime: json['start'],
+      endTime: json['end'],
+      day: json['day'],
     );
   }
 }
-
-class ReviewsCall {
-  Future<GeneralReviewInfo> fetchReviews() async {
-    final response = await http.get(
-        Uri.parse(
-            'https://api.yelp.com/v3/businesses/north-india-restaurant-san-francisco/reviews'),
-        headers: {
-          'Authorization':
-          'Bearer wigdsJl9SwNA3dZ3S0hjTtXyUZy6iLmQPFcPEkN2J_nVGcQOoPT5g1JCmF4IEjvAmArwWSCFR6Y-0nk_drkVefLFrrKpDA3LsLsP39U13rf3eCqMSffpH-fIu22mYnYx',
-        });
-
-    final responseJson = jsonDecode(response.body);
-
-    return GeneralReviewInfo.fromJson(responseJson);
-  }
-}
-
-class GeneralReviewInfo {
-  final int totalReviews;
-  final List<IndividualReviews> individuals;
-
-  GeneralReviewInfo({
-    required this.totalReviews,
-    required this.individuals,
-  });
-
-  factory GeneralReviewInfo.fromJson(Map<String, dynamic> json) {
-    return GeneralReviewInfo(
-      totalReviews: json['total'],
-      individuals:
-        (json['reviews'] as List)
-            .map((review) => IndividualReviews.fromJson(review)).toList()
-    );
-  }
-}
-
-class IndividualReviews {
-  final num rating;
-  final String reviewText;
-  final User user;
-
-  IndividualReviews({
-    required this.rating,
-    required this.reviewText,
-    required this.user,
-  });
-
-  factory IndividualReviews.fromJson(Map<String, dynamic> json) {
-    return IndividualReviews(
-      rating: json['rating'],
-      reviewText: json['text'],
-      user: User.fromJson(json['user']),
-    );
-  }
-}
-
-class User {
-  final String name;
-  final String? imageUrl;
-
-  User({
-    required this.name,
-    required this.imageUrl,
-  });
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      name: json['name'],
-      imageUrl: json['image_url'],
-    );
-  }
-}
-
-

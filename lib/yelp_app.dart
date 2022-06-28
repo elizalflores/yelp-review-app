@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:yelp_review/home_screen.dart';
+import 'package:yelp_review/restaurant_screen/restaurant_screen.dart';
+import 'package:yelp_review/tour_screen.dart';
 
 class YelpApp extends StatelessWidget {
   const YelpApp({Key? key}) : super(key: key);
@@ -38,9 +39,10 @@ class YelpApp extends StatelessWidget {
           ),
         ),
       ),
-      initialRoute: '/home_screen',
+      initialRoute: '/tour_screen',
       routes: {
-        '/home_screen': (context) => const HomeScreen(),
+        '/tour_screen' : (context) => const TourScreen(),
+        '/restaurant_screen': (context) => RestaurantScreen(alias: ModalRoute.of(context)!.settings.arguments as String),
       },
     );
   }
