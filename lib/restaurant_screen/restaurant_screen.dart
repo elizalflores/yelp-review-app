@@ -22,8 +22,8 @@ class RestaurantScreen extends StatefulWidget {
 }
 
 class _RestaurantScreenState extends State<RestaurantScreen> {
-  final DividerThemeData dividerTheme = const DividerThemeData();
   static const double paddingAmount = 30.0;
+  final DividerThemeData dividerTheme = const DividerThemeData();
 
   Future<Restaurant>? futureRestaurant;
   Future<GeneralReviewInfo>? futureReviews;
@@ -49,8 +49,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
-      body:
-          FutureBuilder<Restaurant>(
+      body: FutureBuilder<Restaurant>(
             future: futureRestaurant,
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data != null) {
@@ -113,7 +112,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   ],
                 );
               } else if (snapshot.hasError) {
-                return const Text('Oops, it\'s Matt\'s fault');
+                return const Center(child: Text('Oops, something went wrong'));
               } else {
                 return const Center(child: CircularProgressIndicator());
               }

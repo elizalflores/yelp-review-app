@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yelp_review/restaurant_screen/restaurant_screen.dart';
-import 'package:yelp_review/tour_screen.dart';
+import 'package:yelp_review/tour_screen/tour_screen.dart';
 
 class YelpApp extends StatelessWidget {
   const YelpApp({Key? key}) : super(key: key);
