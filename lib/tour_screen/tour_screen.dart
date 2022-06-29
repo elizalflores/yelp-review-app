@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yelp_review/restaurant_app_bar.dart';
 import 'package:yelp_review/services/restaurant_catalog.dart';
 import 'package:yelp_review/services/restaurant_repository.dart';
+import 'package:yelp_review/tour_screen/widgets/tour_builder.dart';
 import 'package:yelp_review/tour_screen/widgets/tour_card.dart';
 
 class TourScreen extends StatefulWidget {
@@ -44,21 +45,15 @@ class _TourScreenState extends State<TourScreen> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData && snapshot.data != null) {
                         final catalog = snapshot.data;
-                        return ListView.builder(
-                          itemCount: catalog!.businesses.length,
-                          shrinkWrap: true,
-                          physics: const ClampingScrollPhysics(),
-                          itemBuilder: (_, index) {
-                              return TourCard(
-                                catalog: catalog,
-                                index: index,
-                              );
-                            }
+                        return TourBuilder(
+                          catalog: catalog,
                         );
                       } else if (snapshot.hasError) {
                         return const Center(child: Text('Oops, something went wrong'));
                       } else {
-                        return const Center(child: CircularProgressIndicator());
+                        return SizedBox(
+                            height: MediaQuery.of(context).size.height / 1.3,
+                            child: const Center(child: CircularProgressIndicator()));
                       }
                     }
                   ),
