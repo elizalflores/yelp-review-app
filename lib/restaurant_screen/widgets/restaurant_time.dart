@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../services/restaurant_data.dart';
+import 'package:yelp_review/services/restaurant_data.dart';
 
 class RestaurantTime extends StatelessWidget {
   RestaurantTime(
@@ -35,16 +35,36 @@ class RestaurantTime extends StatelessWidget {
         ),
         Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: open.map((time) => Text(
-                '${dayOfTheWeek[time.day]} ${processingTime(time)}',
-                style: const TextStyle(
-                  height: 1.5,
-                  color: Colors.black,
-                  fontSize: 15.0,
-                  fontStyle: FontStyle.normal,
-                  fontWeight: FontWeight.normal,
+            children: open.map((time) => Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                    dayOfTheWeek[time.day],
+                    style: const TextStyle(
+                      height: 1.5,
+                      color: Colors.black,
+                      fontSize: 15.0,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                      right: 15.0,
+                  ),
+                  child: Text(
+                    processingTime(time),
+                    style: const TextStyle(
+                      height: 1.5,
+                      color: Colors.black,
+                      fontSize: 15.0,
+                      fontStyle: FontStyle.normal,
+                      fontWeight: FontWeight.normal,
+                    ),
+                  ),
                 ),
-              )).toList(),
+              ],
+            )).toList(),
         ),
       ]
     );
@@ -52,54 +72,36 @@ class RestaurantTime extends StatelessWidget {
 }
 
 String processingTime(DailyHours dayInfo) {
+  return '${dayInfo.startTime.toFancyTime()} - ${dayInfo.endTime.toFancyTime()}';
+}
 
-  String startTimeWithColon;
-  String endTimeWithColon;
-
-  //start parsing the start string
-  if(dayInfo.startTime == '1200') {
-    startTimeWithColon = '12:00 PM';
-  }
-  else if(dayInfo.endTime == '0000') {
-    startTimeWithColon = '12:00 AM';
-  }
-  else {
-    String startTime = (int.parse(dayInfo.startTime) % 1200).toString();
-    if(startTime.length == 3) {
-      startTime = '0$startTime';
+extension TimeFormatting on String {
+  String toFancyTime() {
+    String startTime = (int.parse(this) % 1200).toString();
+    switch (startTime.length) {
+      case 1:
+        startTime = '120$startTime';
+        break;
+      case 2:
+        startTime = '12$startTime';
+        break;
+      case 3:
+        startTime = '0$startTime';
+        break;
+      case 4:
+        break;
+      default:
+        startTime = '';
     }
-    startTimeWithColon =
-    '${startTime.substring(0, 2)}:${startTime.substring(2, 4)}';
-    if(int.parse(dayInfo.startTime) > 1200) {
-      startTimeWithColon += ' PM';
+
+    var timeWithColon =
+        '${startTime.substring(0, 2)}:${startTime.substring(2, 4)}';
+    if (int.parse(this) > 1200) {
+      timeWithColon += ' PM';
     }
     else {
-      startTimeWithColon += ' AM';
+      timeWithColon += ' AM';
     }
+    return timeWithColon;
   }
-
-  //start parsing the end string
-  if(dayInfo.endTime == '1200') {
-    endTimeWithColon = '12:00 PM';
-  }
-  else if(dayInfo.endTime == '0000') {
-    endTimeWithColon = '12:00 AM';
-  }
-  else {
-    String endTime = (int.parse(dayInfo.endTime) % 1200).toString();
-    if(endTime.length == 3) {
-      endTime = '0$endTime';
-    }
-    endTimeWithColon =
-    '${endTime.substring(0, 2)}:${endTime.substring(2, 4)}';
-
-    if(int.parse(dayInfo.endTime) > 1200) {
-      endTimeWithColon += ' PM';
-    }
-    else {
-      endTimeWithColon += ' AM';
-    }
-  }
-
-  return '$startTimeWithColon - $endTimeWithColon';
 }

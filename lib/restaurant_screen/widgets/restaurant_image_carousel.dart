@@ -18,6 +18,18 @@ class RestaurantImageCarousel extends StatelessWidget {
                 children: photos!.map((photo) =>
                     Image.network(photo, fit: BoxFit.cover,)).toList()
             ),
+            const Align(
+              alignment: Alignment(-1,0),
+              child: Icon(
+                Icons.keyboard_arrow_left,
+              ),
+            ),
+            const Align(
+              alignment: Alignment(1,0),
+              child: Icon(
+                Icons.keyboard_arrow_right,
+              ),
+            ),
           ],
         ),
       );

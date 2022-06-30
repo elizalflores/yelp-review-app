@@ -41,6 +41,7 @@ dependencies:
   avatars: ^3.0.2
   location: ^4.4.0
   intl: ^0.17.0
+  flutter_bloc: ^8.0.1
 
 dev_dependencies:
   flutter_test:

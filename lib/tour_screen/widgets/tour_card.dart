@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yelp_review/services/restaurant_catalog.dart';
+import 'package:yelp_review/tour_screen/tour_cubit.dart';
 import 'package:yelp_review/tour_screen/widgets/tour_card_image.dart';
 import 'package:yelp_review/tour_screen/widgets/tour_card_information.dart';
 
