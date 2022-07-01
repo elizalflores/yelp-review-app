@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yelp_review/restaurant_app_bar.dart';
-import 'package:yelp_review/services/restaurant_catalog.dart';
-import 'package:yelp_review/services/restaurant_repository.dart';
 import 'package:yelp_review/tour_screen/tour_cubit.dart';
 import 'package:yelp_review/tour_screen/widgets/tour_builder.dart';
-import 'package:yelp_review/tour_screen/widgets/tour_card.dart';
 
 class TourScreen extends StatefulWidget {
   const TourScreen({Key? key}) : super(key: key);

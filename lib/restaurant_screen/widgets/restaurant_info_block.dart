@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yelp_review/restaurant_screen/widgets/yelp_divider.dart';
+import 'package:yelp_review/services/restaurant_data.dart';
 
-import '../../services/restaurant_data.dart';
 
 class RestaurantInfoBlock extends StatelessWidget {
   final DisplayAddress? address;
