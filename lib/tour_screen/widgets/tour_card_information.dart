@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:yelp_review/services/restaurant_catalog.dart';
+import 'package:yelp_review/tour_screen/widgets/tour_card_image.dart';
 
 class TourCardInformation extends StatelessWidget {
   final RestaurantCatalog? catalog;
@@ -17,19 +18,32 @@ class TourCardInformation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: ListTile(
+        minVerticalPadding: 0,
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 10.0,
-          vertical: 20.0,
         ),
-        title: Text(
-          catalog!.businesses[index].name,
-          style: Theme.of(context).textTheme.headline1,
+        title: SizedBox(
+          height: imageSize / 2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                catalog!.businesses[index].name,
+                style: const TextStyle(
+                  fontSize: 18.0,
+                  fontWeight: FontWeight.normal,
+                  color: Colors.black,
+                ),
+              ),
+            ],
+          ),
         ),
-        subtitle: Padding(
-          padding: const EdgeInsets.only(top: 10.0),
+        subtitle: SizedBox(
+          height: imageSize / 2,
           child: Row(
             children: [
               Column(
+                mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -51,12 +65,12 @@ class TourCardInformation extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          left: 50.0,
+                          left: 95.0,
                         ),
                         child: Text(
                           (catalog!.businesses[index].isClosed)
-                              ? 'Closed'
-                              : 'In business',
+                              ? 'Permanently Closed'
+                              : 'Open',
                           style: Theme.of(context).textTheme.bodyText2,
                         ),
                       ),

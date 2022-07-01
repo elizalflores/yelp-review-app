@@ -25,6 +25,7 @@ class TourCubit extends Cubit<TourState> {
   }
 
   void load() async {
+    emit(TourLoadingState());
     try {
       final catalog = await restaurantRepository.fetchCatalog();
       if(catalog.businesses.isEmpty) {

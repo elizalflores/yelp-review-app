@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+const double imageSize = 95;
+
 class TourCardImage extends StatelessWidget {
   final String imageUrl;
   final int index;
@@ -14,8 +16,8 @@ class TourCardImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 100,
-      height: 100,
+      width: imageSize,
+      height: imageSize,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10.0),
         child: Image.network(

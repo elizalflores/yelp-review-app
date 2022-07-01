@@ -18,7 +18,7 @@ class ReviewCalls {
 }
 
 class GeneralReviewInfo {
-  final int totalReviews;
+  final int? totalReviews;
   final List<IndividualReviews> individuals;
 
   GeneralReviewInfo({
