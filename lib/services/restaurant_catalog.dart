@@ -70,10 +70,11 @@ class RestaurantCatalog {
 class Businesses {
   final double rating;
   final String price;
-  final String alias;//need this to pass into navigation
+  final String alias;
   final String name;
   final String imageUrl;
-  final bool isClosed;//permanentely closed
+  final double distance;
+  final bool isClosed;//permanently closed
 
   final List<Category> categories;
 
@@ -84,6 +85,7 @@ class Businesses {
     required this.name,
     required this.imageUrl,
     required this.isClosed,
+    required this.distance,
     required this.categories,
   });
 
@@ -95,6 +97,7 @@ class Businesses {
         name: json['name'],
         imageUrl: json['image_url'],
         isClosed: json['is_closed'],
+        distance: json['distance'],
         categories: (json['categories'] as List)
             .map((categoryJson) => Category.fromJson(categoryJson))
             .toList(),

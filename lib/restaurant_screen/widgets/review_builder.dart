@@ -31,9 +31,9 @@ class ReviewBuilder extends StatelessWidget {
             children: [
               RatingBarIndicator(
                 rating: reviews!.individuals[index].rating.toDouble(),
-                itemBuilder: (context, index) => const Icon(
+                itemBuilder: (context, index) => Icon(
                   Icons.star,
-                  color: Colors.amber,
+                  color: Colors.amber.shade600,
                 ),
                 itemCount: 5,
                 itemSize: 15.0,

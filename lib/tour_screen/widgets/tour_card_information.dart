@@ -54,9 +54,9 @@ class TourCardInformation extends StatelessWidget {
                     children: [
                       RatingBarIndicator(
                         rating: catalog!.businesses[index].rating.toDouble(),
-                        itemBuilder: (context, index) => const Icon(
+                        itemBuilder: (context, index) => Icon(
                           Icons.star,
-                          color: Colors.amber,
+                          color: Colors.amber.shade600,
                         ),
                         itemCount: 5,
                         itemSize: 15.0,
@@ -65,25 +65,11 @@ class TourCardInformation extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(
-                          left: 95.0,
+                          left: 110.0,
                         ),
                         child: Text(
-                          (catalog!.businesses[index].isClosed)
-                              ? 'Permanently Closed'
-                              : 'Open',
+                          '${convertDistance(catalog!.businesses[index].distance)} mi',
                           style: Theme.of(context).textTheme.bodyText2,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 4.0,
-                        ),
-                        child: Icon(
-                          Icons.circle,
-                          color: (catalog!.businesses[index].isClosed)
-                              ? Colors.red
-                              : Colors.green,
-                          size: 12.0,
                         ),
                       ),
                     ],
@@ -96,4 +82,10 @@ class TourCardInformation extends StatelessWidget {
       ),
     );
   }
+}
+
+String convertDistance(double meters) {
+  final miles = meters / 1609.344;
+
+  return miles.toStringAsFixed(1);
 }

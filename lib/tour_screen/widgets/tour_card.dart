@@ -24,6 +24,7 @@ class TourCard extends StatelessWidget {
         color: Colors.white,
         elevation: 1.0,
         child: InkWell(
+          splashColor: Colors.lightBlueAccent,
           onTap: (){
             Navigator.of(context).pushNamed(
                 '/restaurant_screen',
@@ -33,7 +34,12 @@ class TourCard extends StatelessWidget {
           child: Row(
             children: [
               Padding(
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.only(
+                    left: 10.0,
+                    right: 0.0,
+                    top: 10.0,
+                    bottom: 10.0,
+                ),
                 child: TourCardImage(
                   imageUrl: catalog!.businesses[index].imageUrl,
                   index: index,
