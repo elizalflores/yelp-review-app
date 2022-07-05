@@ -41,6 +41,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         title: state.restaurant.name,
                       ),
                       RestaurantImageCarousel(photos: state.restaurant.photos),
+                      const YelpDivider(),
                       RestaurantExpansionTile(
                         price: state.restaurant.price,
                         title: state.restaurant.categories.first.title,

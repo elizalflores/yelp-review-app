@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:location/location.dart';
+import 'package:yelp_review/services/secret_services.dart';
 
 class CatalogCalls {
 
@@ -37,8 +38,7 @@ class CatalogCalls {
         Uri.parse(
             'https://api.yelp.com/v3/businesses/search?latitude=$latitude&longitude=$longitude'),
         headers: {
-          'Authorization':
-          'Bearer wigdsJl9SwNA3dZ3S0hjTtXyUZy6iLmQPFcPEkN2J_nVGcQOoPT5g1JCmF4IEjvAmArwWSCFR6Y-0nk_drkVefLFrrKpDA3LsLsP39U13rf3eCqMSffpH-fIu22mYnYx',
+          'Authorization': yelpKey,
         });
 
     final responseJson = jsonDecode(response.body);
@@ -60,9 +60,7 @@ class RestaurantCatalog {
     return RestaurantCatalog(
       totalRestaurants: json['total'],
       businesses: (json['businesses'] as List)
-          .map((business) => Businesses.fromJson(business))
-          .where((business) => !business.isClosed)
-          .toList(),
+          .map((business) => Businesses.fromJson(business)).toList(),
     );
   }
 }
@@ -74,7 +72,6 @@ class Businesses {
   final String name;
   final String imageUrl;
   final double distance;
-  final bool isClosed;//permanently closed
 
   final List<Category> categories;
 
@@ -84,7 +81,6 @@ class Businesses {
     required this.alias,
     required this.name,
     required this.imageUrl,
-    required this.isClosed,
     required this.distance,
     required this.categories,
   });
@@ -96,7 +92,6 @@ class Businesses {
         alias: json['alias'],
         name: json['name'],
         imageUrl: json['image_url'],
-        isClosed: json['is_closed'],
         distance: json['distance'],
         categories: (json['categories'] as List)
             .map((categoryJson) => Category.fromJson(categoryJson))

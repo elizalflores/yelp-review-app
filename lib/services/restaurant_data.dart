@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:yelp_review/services/secret_services.dart';
 
 class RestaurantCalls {
   Future<Restaurant> fetchRestaurant(String alias) async {
@@ -7,8 +8,7 @@ class RestaurantCalls {
         Uri.parse(
             'https://api.yelp.com/v3/businesses/$alias'),
         headers: {
-          'Authorization':
-          'Bearer wigdsJl9SwNA3dZ3S0hjTtXyUZy6iLmQPFcPEkN2J_nVGcQOoPT5g1JCmF4IEjvAmArwWSCFR6Y-0nk_drkVefLFrrKpDA3LsLsP39U13rf3eCqMSffpH-fIu22mYnYx',
+          'Authorization': yelpKey,
         });
 
     final responseJson = jsonDecode(response.body);

@@ -13,8 +13,7 @@ class TourLoadedState extends TourState {
 
   TourLoadedState({
     required this.catalog,
-});
-
+  });
 }
 
 class TourCubit extends Cubit<TourState> {
@@ -28,15 +27,16 @@ class TourCubit extends Cubit<TourState> {
     emit(TourLoadingState());
     try {
       final catalog = await restaurantRepository.fetchCatalog();
-      if(catalog.businesses.isEmpty) {
+      if (catalog.businesses.isEmpty) {
         emit(TourErrorState());
       } else {
-        emit(TourLoadedState(catalog: catalog,));
+        catalog.businesses.sort(
+          (a, b) => a.distance.compareTo(b.distance),
+        );
+        emit(TourLoadedState(catalog: catalog));
       }
     } catch (e) {
       emit(TourErrorState());
     }
-
   }
 }
-
