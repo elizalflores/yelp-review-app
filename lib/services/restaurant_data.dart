@@ -24,6 +24,7 @@ class Restaurant {
   final String price;
 
   final Location location;
+  final Coordinates coordinates;
 
   final List<Category> categories;
   final List<Hours>? hours;
@@ -35,6 +36,7 @@ class Restaurant {
     required this.rating,
     required this.price,
     required this.location,
+    required this.coordinates,
     required this.categories,
     this.hours,
     this.photos,
@@ -47,6 +49,7 @@ class Restaurant {
       rating: json['rating'],
       price: json['price'],
       location: Location.fromJson(json['location']),
+      coordinates: Coordinates.fromJson(json['coordinates']),
       categories: (json['categories'] as List)
           .map((categoryJson) => Category.fromJson(categoryJson))
           .toList(),
@@ -102,6 +105,23 @@ class DisplayAddress {
     return DisplayAddress(
       addressLine1: addresses[0],
       addressLine2: addresses[1],
+    );
+  }
+}
+
+class Coordinates {
+  final double latitude;
+  final double longitude;
+
+  const Coordinates({
+    required this.latitude,
+    required this.longitude,
+  });
+
+  factory Coordinates.fromJson(Map<String, dynamic> json) {
+    return Coordinates(
+      latitude: json['latitude'],
+      longitude: json['longitude'],
     );
   }
 }

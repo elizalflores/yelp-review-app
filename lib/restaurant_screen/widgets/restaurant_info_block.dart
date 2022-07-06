@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:yelp_review/restaurant_screen/widgets/google_map_window.dart';
 import 'package:yelp_review/restaurant_screen/widgets/yelp_divider.dart';
 import 'package:yelp_review/services/restaurant_data.dart';
 
 
 class RestaurantInfoBlock extends StatelessWidget {
+  final String name;
   final DisplayAddress? address;
   final double? rating;
   final double paddingAmount;
+  final Coordinates coordinates;
 
   const RestaurantInfoBlock({
     Key? key,
+    required this.name,
     required this.address,
     this.rating,
     required this.paddingAmount,
+    required this.coordinates,
   }) : super(key: key);
 
   @override
@@ -40,6 +45,17 @@ class RestaurantInfoBlock extends StatelessWidget {
               fontStyle: FontStyle.normal,
               fontWeight: FontWeight.bold,
             ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            left: paddingAmount,
+            right: paddingAmount,
+            bottom: paddingAmount,
+          ),
+          child: GoogleMapWindow(
+            restaurantName: name,
+            coordinates: coordinates,
           ),
         ),
         const YelpDivider(),
