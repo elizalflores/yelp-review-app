@@ -8,7 +8,7 @@ class ReviewCalls {
         Uri.parse(
             'https://api.yelp.com/v3/businesses/$alias/reviews'),
         headers: {
-          'Authorization': yelpKey,
+          'Authorization': 'Bearer $yelpKey',
         });
 
     final responseJson = jsonDecode(response.body);

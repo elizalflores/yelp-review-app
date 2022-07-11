@@ -4,7 +4,7 @@ import 'package:yelp_review/services/restaurant_catalog.dart';
 import 'package:yelp_review/tour_screen/widgets/tour_card_image.dart';
 
 class TourCardInformation extends StatelessWidget {
-  final RestaurantCatalog? catalog;
+  final RestaurantCatalog catalog;
   final int index;
 
   const TourCardInformation({
@@ -28,7 +28,7 @@ class TourCardInformation extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                catalog!.businesses[index].name,
+                catalog.businesses[index].name,
                 style: const TextStyle(
                   fontSize: 18.0,
                   fontWeight: FontWeight.normal,
@@ -46,14 +46,18 @@ class TourCardInformation extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    '${catalog!.businesses[index].price} ${catalog!.businesses[index].categories.first.title}',
+                  catalog.businesses[index].price != null ?
+                    Text(
+                      '${catalog.businesses[index].price} ${catalog.businesses[index].categories.first.title}',
+                      style: Theme.of(context).textTheme.bodyText1,
+                    ) : Text(
+                    '\$ ${catalog.businesses[index].categories.first.title}',
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                   Row(
                     children: [
                       RatingBarIndicator(
-                        rating: catalog!.businesses[index].rating.toDouble(),
+                        rating: catalog.businesses[index].rating.toDouble(),
                         itemBuilder: (context, index) => Icon(
                           Icons.star,
                           color: Colors.amber.shade600,
@@ -67,10 +71,13 @@ class TourCardInformation extends StatelessWidget {
                         padding: const EdgeInsets.only(
                           left: 110.0,
                         ),
-                        child: Text(
-                          '${convertDistance(catalog!.businesses[index].distance)} mi',
+                        child:
+                        catalog.businesses[index].distance != null ?
+                        Text(
+                          '${convertDistance(catalog.businesses[index].distance!)} mi',
                           style: Theme.of(context).textTheme.bodyText2,
-                        ),
+                        )
+                        : const SizedBox.shrink(),
                       ),
                     ],
                   ),
@@ -84,7 +91,7 @@ class TourCardInformation extends StatelessWidget {
   }
 }
 
-String convertDistance(double meters) {
+String convertDistance(num meters) {
   final miles = meters / 1609.344;
 
   return miles.toStringAsFixed(1);

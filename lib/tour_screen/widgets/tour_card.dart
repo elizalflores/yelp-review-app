@@ -28,7 +28,7 @@ class TourCard extends StatelessWidget {
           onTap: (){
             Navigator.of(context).pushNamed(
                 '/restaurant_screen',
-                arguments: catalog!.businesses[index].alias
+                arguments: catalog!.businesses[index].alias,
             );
           },
           child: Row(
@@ -41,12 +41,12 @@ class TourCard extends StatelessWidget {
                     bottom: 10.0,
                 ),
                 child: TourCardImage(
-                  imageUrl: catalog!.businesses[index].imageUrl,
+                  imageUrl: catalog!.businesses[index].photos,
                   index: index,
                 ),
               ),
               TourCardInformation(
-                catalog: catalog,
+                catalog: catalog!,
                 index: index,
               ),
             ],

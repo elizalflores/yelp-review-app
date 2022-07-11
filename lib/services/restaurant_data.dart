@@ -8,7 +8,7 @@ class RestaurantCalls {
         Uri.parse(
             'https://api.yelp.com/v3/businesses/$alias'),
         headers: {
-          'Authorization': yelpKey,
+          'Authorization': 'Bearer $yelpKey',
         });
 
     final responseJson = jsonDecode(response.body);
@@ -21,7 +21,7 @@ class Restaurant {
   final String name;
   final String imageUrl;
   final double rating;
-  final String price;
+  final String? price;
 
   final Location location;
   final Coordinates coordinates;
@@ -34,7 +34,7 @@ class Restaurant {
     required this.name,
     required this.imageUrl,
     required this.rating,
-    required this.price,
+    required this.price,//price can be null
     required this.location,
     required this.coordinates,
     required this.categories,

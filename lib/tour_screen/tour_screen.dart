@@ -52,8 +52,9 @@ class _TourScreenState extends State<TourScreen> {
                                 height:
                                     MediaQuery.of(context).size.height / 1.3,
                                 child: const Center(
-                                  child: Text('Oops! Something went wrong. :('
-                                      '\nAre you connected to the internet?'),
+                                  child: Text(
+                                      'Oops! Something went wrong. :(',
+                                  ),
                                 ),
                               ),
                           ],

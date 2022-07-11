@@ -3,7 +3,7 @@ import 'package:yelp_review/restaurant_screen/widgets/restaurant_time.dart';
 import 'package:yelp_review/services/restaurant_data.dart';
 
 class RestaurantExpansionTile extends StatelessWidget {
-  final String price;
+  final String? price;
   final String title;
   final List<Hours>? hours;
   final double paddingAmount;
@@ -30,8 +30,13 @@ class RestaurantExpansionTile extends StatelessWidget {
       iconColor: Colors.grey,
       title: Row(
         children: [
+          price != null ?
           Text(
             '$price $title',
+            style: Theme.of(context).textTheme.bodyText1,
+          ) :
+          Text(
+            '\$ $title',
             style: Theme.of(context).textTheme.bodyText1,
           ),
           const Spacer(),
