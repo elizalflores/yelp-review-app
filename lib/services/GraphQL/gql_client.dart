@@ -52,37 +52,20 @@ class GraphQLCall {
     const String catalogQuery = r'''
     query fetchCatalog($latitude: Float!, $longitude: Float!) {
       search(latitude: $latitude, longitude: $longitude) {
-          business {
-            name
-            alias
-            price
-            distance
-            categories{
-             alias
-             title
-            }
-            hours {
-             is_open_now
-             open {
-               is_overnight
-               start
-               end
-               day
-             }
-            }
-            location {
-            address1
-            city
-            state
-            postal_code
-          }
-          rating
+        business {
+          name
           alias
+          price
+          rating
+          distance
           photos
+          categories {
+            title
+          }
         }
       }
-  }
-  ''';
+    }
+    ''';
 
     final QueryOptions options = QueryOptions(
       document: gql(catalogQuery),

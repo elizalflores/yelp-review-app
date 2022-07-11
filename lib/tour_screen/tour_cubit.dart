@@ -22,7 +22,7 @@ class TourCubit extends Cubit<TourState> {
   GraphQLCall catalogCall = GraphQLCall();
 
   //REST Implementation
-  // RestaurantRepository restaurantRepository = RestaurantRepository();
+  //RestaurantRepository restaurantRepository = RestaurantRepository();
 
   TourCubit() : super(TourLoadingState()) {
     load();
@@ -35,7 +35,7 @@ class TourCubit extends Cubit<TourState> {
       final catalog = await catalogCall.fetchCatalog();
 
       //REST Implementation
-      // final catalog = await restaurantRepository.fetchCatalog();
+      //final catalog = await restaurantRepository.fetchCatalog();
 
       if (catalog.businesses.isEmpty) {
         emit(TourErrorState());
