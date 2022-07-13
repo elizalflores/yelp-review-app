@@ -17,7 +17,7 @@ class _TourScreenState extends State<TourScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (_) => TourCubit(),
+        create: (_) => TourCubit()..load(),
         child: Container(
           color: const Color(0xFAFAF9F9),
           child: Column(

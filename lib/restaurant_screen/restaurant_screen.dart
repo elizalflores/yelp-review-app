@@ -9,11 +9,11 @@ import 'package:yelp_review/restaurant_screen/widgets/yelp_divider.dart';
 import 'package:yelp_review/restaurant_app_bar.dart';
 
 class RestaurantScreen extends StatefulWidget {
-  final String? restaurantName;
+  final String? testName;
   final String alias;
 
   const RestaurantScreen(
-      {@visibleForTesting this.restaurantName, required this.alias, Key? key})
+      {@visibleForTesting this.testName, required this.alias, Key? key})
       : super(key: key);
 
   @override

@@ -10,7 +10,7 @@ void main() {
             Device.iphone11,
           ])
           ..addScenario(
-            widget: const RestaurantScreen(restaurantName: 'Normal Restaurant Name', alias: 'north-india-restaurant-san-francisco'),
+            widget: const RestaurantScreen(testName: 'Normal Restaurant Name', alias: 'north-india-restaurant-san-francisco'),
             name: 'yelp app bar normal title',
           );
 
@@ -26,7 +26,7 @@ void main() {
             Device.iphone11,
           ])
           ..addScenario(
-            widget: const RestaurantScreen(restaurantName: 'A Really Super Long Restaurant Name', alias: 'north-india-restaurant-san-francisco'),
+            widget: const RestaurantScreen(testName: 'A Really Super Long Restaurant Name', alias: 'north-india-restaurant-san-francisco'),
             name: 'yelp app bar long title',
           );
 

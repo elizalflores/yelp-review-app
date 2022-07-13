@@ -19,13 +19,13 @@ class TourLoadedState extends TourState {
 
 class TourCubit extends Cubit<TourState> {
   //GraphQL Implementation
-  GraphQLCall catalogCall = GraphQLCall();
+  late GraphQLCall catalogCall;
 
   //REST Implementation
   //RestaurantRepository restaurantRepository = RestaurantRepository();
 
-  TourCubit() : super(TourLoadingState()) {
-    load();
+  TourCubit({GraphQLCall? catalogCall}) : super(TourLoadingState()) {
+    this.catalogCall = catalogCall ?? GraphQLCall();
   }
 
   void load() async {
