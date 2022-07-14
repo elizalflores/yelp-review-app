@@ -28,7 +28,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: BlocProvider(
-        create: (_) => RestaurantCubit(alias: widget.alias),
+        create: (_) => RestaurantCubit(alias: widget.alias)..load(),
         child: BlocBuilder<RestaurantCubit, RestaurantState>(
           builder: (context, state) {
             if (state is RestaurantLoadedState) {

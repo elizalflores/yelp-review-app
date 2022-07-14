@@ -17,22 +17,28 @@ class RestaurantLoadedState extends RestaurantState {
     required this.restaurant,
     required this.reviews,
   });
-
 }
 
 class RestaurantCubit extends Cubit<RestaurantState> {
-  RestaurantRepository restaurantRepository = RestaurantRepository();
-  final String alias;
+  late String alias;
+  late RestaurantRepository restaurantRepository;
 
-  RestaurantCubit({required this.alias}) : super(RestaurantLoadingState()) {
-    load(alias);
+  RestaurantCubit(
+      {required this.alias, RestaurantRepository? restRepo})
+      : super(RestaurantLoadingState()) {
+    restaurantRepository = restRepo ?? RestaurantRepository();
   }
 
-  void load(String alias) async {
+  void load() async {
+    emit(RestaurantLoadingState());
+    if(alias.isEmpty) {
+      emit(RestaurantErrorState());
+      return;
+    }
     try {
       final restaurant = await restaurantRepository.fetchRestaurant(alias);
       final reviews = await restaurantRepository.fetchReviews(alias);
-      if(restaurant == null || reviews == null) {
+      if (restaurant == null || reviews == null) {
         emit(RestaurantErrorState());
       } else {
         emit(RestaurantLoadedState(restaurant: restaurant, reviews: reviews));
@@ -42,4 +48,3 @@ class RestaurantCubit extends Cubit<RestaurantState> {
     }
   }
 }
-

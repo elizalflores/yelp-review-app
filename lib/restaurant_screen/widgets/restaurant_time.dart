@@ -40,6 +40,7 @@ class RestaurantTime extends StatelessWidget {
               children: [
                 Text(
                     dayOfTheWeek[time.day],
+                    key: Key(dayOfTheWeek[time.day]),
                     style: const TextStyle(
                       height: 1.5,
                       color: Colors.black,
