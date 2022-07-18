@@ -5,7 +5,7 @@ import 'package:yelp_review/restaurant_screen/restaurant_cubit.dart';
 import 'package:yelp_review/services/restaurant_data.dart';
 import 'package:yelp_review/services/restaurant_reviews.dart';
 
-import 'mock_repo.dart';
+import '../mock_repo.dart';
 
 void main() {
     final mockRepo = MockRESTCall();

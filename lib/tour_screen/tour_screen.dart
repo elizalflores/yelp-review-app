@@ -5,7 +5,12 @@ import 'package:yelp_review/tour_screen/tour_cubit.dart';
 import 'package:yelp_review/tour_screen/widgets/tour_builder.dart';
 
 class TourScreen extends StatefulWidget {
-  const TourScreen({Key? key}) : super(key: key);
+  final TourCubit? cubit;
+
+  const TourScreen({
+    Key? key,
+    @visibleForTesting this.cubit,
+  }) : super(key: key);
 
   @override
   State<TourScreen> createState() => _TourScreenState();
@@ -17,7 +22,7 @@ class _TourScreenState extends State<TourScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (_) => TourCubit()..load(),
+        create: (context) => (widget.cubit ?? TourCubit()..load()),
         child: Container(
           color: const Color(0xFAFAF9F9),
           child: Column(
@@ -35,6 +40,7 @@ class _TourScreenState extends State<TourScreen> {
                           return;
                         },
                         child: ListView(
+                          shrinkWrap: true,
                           children: [
                             if (state is TourLoadingState)
                               SizedBox(

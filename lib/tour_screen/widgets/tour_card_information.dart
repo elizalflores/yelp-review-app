@@ -40,46 +40,36 @@ class TourCardInformation extends StatelessWidget {
         ),
         subtitle: SizedBox(
           height: imageSize / 2,
-          child: Row(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
+              catalog.businesses[index].price != null ?
+                Text(
+                  '${catalog.businesses[index].price} ${catalog.businesses[index].categories.first.title}',
+                  style: Theme.of(context).textTheme.bodyText1,
+                ) : Text(
+                '\$ ${catalog.businesses[index].categories.first.title}',
+                style: Theme.of(context).textTheme.bodyText1,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  catalog.businesses[index].price != null ?
-                    Text(
-                      '${catalog.businesses[index].price} ${catalog.businesses[index].categories.first.title}',
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ) : Text(
-                    '\$ ${catalog.businesses[index].categories.first.title}',
-                    style: Theme.of(context).textTheme.bodyText1,
+                  RatingBarIndicator(
+                    rating: catalog.businesses[index].rating.toDouble(),
+                    itemBuilder: (context, index) => Icon(
+                      Icons.star,
+                      color: Colors.amber.shade600,
+                    ),
+                    itemCount: 5,
+                    itemSize: 15.0,
+                    direction: Axis.horizontal,
+                    unratedColor: Colors.amber.withOpacity(0.5),
                   ),
-                  Row(
-                    children: [
-                      RatingBarIndicator(
-                        rating: catalog.businesses[index].rating.toDouble(),
-                        itemBuilder: (context, index) => Icon(
-                          Icons.star,
-                          color: Colors.amber.shade600,
-                        ),
-                        itemCount: 5,
-                        itemSize: 15.0,
-                        direction: Axis.horizontal,
-                        unratedColor: Colors.amber.withOpacity(0.5),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          left: 110.0,
-                        ),
-                        child:
-                        catalog.businesses[index].distance != null ?
-                        Text(
-                          '${convertDistance(catalog.businesses[index].distance!)} mi',
-                          style: Theme.of(context).textTheme.bodyText2,
-                        )
-                        : const SizedBox.shrink(),
-                      ),
-                    ],
+                  if (catalog.businesses[index].distance != null)
+                  Text(
+                    '${convertDistance(catalog.businesses[index].distance!)} mi',
+                    style: Theme.of(context).textTheme.bodyText2,
                   ),
                 ],
               ),

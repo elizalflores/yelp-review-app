@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../main.dart';
 
 const double imageSize = 95;
 
@@ -15,7 +16,7 @@ class TourCardImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return isTestMode ? Container(color: Colors.red,) : SizedBox(
       width: imageSize,
       height: imageSize,
       child: ClipRRect(
