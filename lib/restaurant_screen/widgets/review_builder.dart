@@ -4,6 +4,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:yelp_review/restaurant_screen/widgets/yelp_divider.dart';
 import 'package:yelp_review/services/restaurant_reviews.dart';
 
+import '../../main.dart';
+
 class ReviewBuilder extends StatelessWidget {
   final GeneralReviewInfo? reviews;
   final double paddingAmount;
@@ -12,8 +14,7 @@ class ReviewBuilder extends StatelessWidget {
     Key? key,
     required this.reviews,
     required this.paddingAmount,
-  })
-      : super(key: key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,8 +50,7 @@ class ReviewBuilder extends StatelessWidget {
                 ),
                 child: Text(
                   reviews!.individuals[index].reviewText,
-                  style:
-                  Theme.of(context).textTheme.bodyText1,
+                  style: Theme.of(context).textTheme.bodyText1,
                 ),
               ),
               Padding(
@@ -60,25 +60,33 @@ class ReviewBuilder extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    reviews!.individuals[index].user.imageUrl != null
-                        ? Avatar(
-                      sources: [
-                        NetworkSource(reviews!.individuals[index].user.imageUrl!),
-                      ],
-                      shape: AvatarShape.circle(20),
-                    )
-                        : Avatar(
-                      name: reviews!.individuals[index].user.name,
-                      textStyle: const TextStyle(
-                        color: Colors.white,
-                        fontStyle: FontStyle.normal,
-                        fontWeight: FontWeight.bold,
+                    if (isTestMode != true && reviews!.individuals[index].user.imageUrl != null) ...[
+                      Avatar(
+                        sources: [
+                          NetworkSource(
+                              reviews!.individuals[index].user.imageUrl!),
+                        ],
+                        shape: AvatarShape.circle(20),
                       ),
-                      shape: AvatarShape.circle(20),
-                    ),
+                    ] else if (isTestMode == true) ...[
+                      const Icon(
+                        Icons.circle,
+                        size: 20,
+                        color: Colors.red,
+                      ),
+                    ] else ...[
+                      Avatar(
+                        name: reviews!.individuals[index].user.name,
+                        textStyle: const TextStyle(
+                          color: Colors.white,
+                          fontStyle: FontStyle.normal,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        shape: AvatarShape.circle(20),
+                      ),
+                    ],
                     Padding(
-                      padding:
-                      const EdgeInsets.only(left: 8.0),
+                      padding: const EdgeInsets.only(left: 8.0),
                       child: Text(
                         reviews!.individuals[index].user.name,
                         style: Theme.of(context).textTheme.bodyText1,

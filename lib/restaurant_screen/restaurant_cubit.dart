@@ -3,6 +3,8 @@ import 'package:yelp_review/services/restaurant_data.dart';
 import 'package:yelp_review/services/restaurant_repository.dart';
 import 'package:yelp_review/services/restaurant_reviews.dart';
 
+import '../services/dependency_locator.dart';
+
 abstract class RestaurantState {}
 
 class RestaurantErrorState extends RestaurantState {}
@@ -20,16 +22,11 @@ class RestaurantLoadedState extends RestaurantState {
 }
 
 class RestaurantCubit extends Cubit<RestaurantState> {
-  late String alias;
-  late RestaurantRepository restaurantRepository;
+  RestaurantRepository restaurantRepository = getIt<RestaurantRepository>();
 
-  RestaurantCubit(
-      {required this.alias, RestaurantRepository? restRepo})
-      : super(RestaurantLoadingState()) {
-    restaurantRepository = restRepo ?? RestaurantRepository();
-  }
+  RestaurantCubit() : super(RestaurantLoadingState());
 
-  void load() async {
+  void load({required String alias}) async {
     emit(RestaurantLoadingState());
     if(alias.isEmpty) {
       emit(RestaurantErrorState());

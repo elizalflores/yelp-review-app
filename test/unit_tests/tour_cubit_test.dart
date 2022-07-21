@@ -1,3 +1,7 @@
+import 'package:yelp_review/services/dependency_locator.dart';
+import 'package:yelp_review/services/GraphQL/gql_client.dart';
+import 'package:yelp_review/services/restaurant_repository.dart';//Used in REST implementation
+
 import '../mock_repo.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:bloc_test/bloc_test.dart';
@@ -7,10 +11,13 @@ import 'package:yelp_review/services/restaurant_catalog.dart';
 
 void main() {
   final mockRepo = MockGQLCall();
+  //final mockRepo = MockRESTCall();//REST implementation
   late RestaurantCatalog mockCatalog;
 
   setUp(
     () {
+      getIt.registerSingleton<GraphQLCall>(mockRepo);
+      //getIt.registerSingleton<RestaurantRepository>(mockRepo);//REST implementation
       Businesses mockBusinesses = Businesses(
         rating: 4.5,
         price: '\$',
@@ -29,31 +36,29 @@ void main() {
   );
 
   blocTest(
-    'emits Error State',
-    build: () {
-      //mock error state
-      when(() => mockRepo.fetchCatalog()).thenThrow(() => Exception());
-      return TourCubit(catalogCall: mockRepo);
-    },
-    act: (TourCubit cubit) => cubit.load(),
-    expect: () => [
-      isA<TourLoadingState>(),
-      isA<TourErrorState>(),
-    ],
-  );
-
-  blocTest(
     'emits [mockCatalog] in Loaded State',
     build: () {
-      //mock loaded state
       when(() => mockRepo.fetchCatalog())
           .thenAnswer((_) => Future.value(mockCatalog));
-      return TourCubit(catalogCall: mockRepo);
+      return TourCubit();
     },
     act: (TourCubit cubit) => cubit.load(),
     expect: () => [
       isA<TourLoadingState>(),
       isA<TourLoadedState>(),
+    ],
+  );
+
+  blocTest(
+    'emits Error State',
+    build: () {
+      when(() => mockRepo.fetchCatalog()).thenThrow(() => Exception());
+      return TourCubit();
+    },
+    act: (TourCubit cubit) => cubit.load(),
+    expect: () => [
+      isA<TourLoadingState>(),
+      isA<TourErrorState>(),
     ],
   );
 }

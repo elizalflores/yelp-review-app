@@ -3,6 +3,8 @@ import 'package:yelp_review/services/GraphQL/gql_client.dart';
 import 'package:yelp_review/services/restaurant_catalog.dart';
 import'package:yelp_review/services/restaurant_repository.dart';//Used in REST Implementation
 
+import '../services/dependency_locator.dart';
+
 abstract class TourState {}
 
 class TourErrorState extends TourState {}
@@ -19,14 +21,12 @@ class TourLoadedState extends TourState {
 
 class TourCubit extends Cubit<TourState> {
   //GraphQL Implementation
-  late GraphQLCall catalogCall;
+  GraphQLCall catalogCall = getIt<GraphQLCall>();
 
   //REST Implementation
-  //RestaurantRepository restaurantRepository = RestaurantRepository();
+  //RestaurantRepository restaurantRepository = getIt<RestaurantRepository>();
 
-  TourCubit({GraphQLCall? catalogCall}) : super(TourLoadingState()) {
-    this.catalogCall = catalogCall ?? GraphQLCall();
-  }
+  TourCubit() : super(TourLoadingState());
 
   void load() async {
     emit(TourLoadingState());

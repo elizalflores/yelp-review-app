@@ -1,8 +1,10 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:yelp_review/services/dependency_locator.dart';
 import 'package:yelp_review/restaurant_screen/restaurant_cubit.dart';
 import 'package:yelp_review/services/restaurant_data.dart';
+import 'package:yelp_review/services/restaurant_repository.dart';
 import 'package:yelp_review/services/restaurant_reviews.dart';
 
 import '../mock_repo.dart';
@@ -13,6 +15,7 @@ void main() {
     late GeneralReviewInfo mockReviews;
 
     setUp(() {
+      getIt.registerSingleton<RestaurantRepository>(mockRepo);
       mockRestaurant = Restaurant(
         name: 'Mock Restaurant',
         imageUrl: 'Image Url',
@@ -72,12 +75,9 @@ void main() {
             .thenAnswer((_) => Future.value(mockRestaurant));
         when(() => mockRepo.fetchReviews(any()))
             .thenAnswer((_) => Future.value(mockReviews));
-        return RestaurantCubit(
-            alias: 'test-alias',
-            restRepo: mockRepo,
-        );
+        return RestaurantCubit();
       },
-      act: (RestaurantCubit cubit) => cubit.load(),
+      act: (RestaurantCubit cubit) => cubit.load(alias: 'test-alias'),
       expect: () => [
             isA<RestaurantLoadingState>(),
             isA<RestaurantLoadedState>(),
@@ -91,12 +91,9 @@ void main() {
             .thenThrow((_) => Future.value(mockRestaurant));
         when(() => mockRepo.fetchReviews(any()))
             .thenThrow((_) => Future.value(mockReviews));
-        return RestaurantCubit(
-            alias: 'test-alias',
-            restRepo: mockRepo,
-        );
+        return RestaurantCubit();
       },
-      act: (RestaurantCubit cubit) => cubit.load(),
+      act: (RestaurantCubit cubit) => cubit.load(alias: 'test-alias'),
       expect: () => [
         isA<RestaurantLoadingState>(),
         isA<RestaurantErrorState>(),

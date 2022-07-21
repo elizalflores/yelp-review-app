@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../../main.dart';
+
+const double imageSize = 95;
+
 class RestaurantImageCarousel extends StatefulWidget {
   final List<String>? photos;
 
@@ -41,6 +45,11 @@ class _RestaurantImageCarouselState extends State<RestaurantImageCarousel> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        isTestMode ? Container(
+          width: imageSize,
+          height: imageSize,
+          color: Colors.red,
+        ) :
         CarouselSlider(
           options: CarouselOptions(
             height: MediaQuery.of(context).size.width * 0.7,

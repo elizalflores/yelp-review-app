@@ -3,13 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yelp_review/restaurant_app_bar.dart';
 import 'package:yelp_review/tour_screen/tour_cubit.dart';
 import 'package:yelp_review/tour_screen/widgets/tour_builder.dart';
+import 'package:yelp_review/tour_screen/widgets/yelp_indicator.dart';
+
+import '../services/dependency_locator.dart';
 
 class TourScreen extends StatefulWidget {
-  final TourCubit? cubit;
 
   const TourScreen({
     Key? key,
-    @visibleForTesting this.cubit,
   }) : super(key: key);
 
   @override
@@ -22,7 +23,7 @@ class _TourScreenState extends State<TourScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (context) => (widget.cubit ?? TourCubit()..load()),
+        create: (context) => TourCubit()..load(),
         child: Container(
           color: const Color(0xFAFAF9F9),
           child: Column(
@@ -34,7 +35,7 @@ class _TourScreenState extends State<TourScreen> {
               Expanded(
                 child: BlocBuilder<TourCubit, TourState>(
                   builder: (context, state) {
-                    return RefreshIndicator(
+                    return YelpIndicator(
                         onRefresh: () async {
                           context.read<TourCubit>().load();
                           return;

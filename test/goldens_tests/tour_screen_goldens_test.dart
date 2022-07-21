@@ -1,6 +1,7 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:yelp_review/main.dart';
+import 'package:yelp_review/services/dependency_locator.dart';
+import 'package:yelp_review/services/GraphQL/gql_client.dart';
 import 'package:yelp_review/tour_screen/tour_cubit.dart';
 import 'package:yelp_review/tour_screen/tour_screen.dart';
 
@@ -8,14 +9,22 @@ import 'package:mocktail/mocktail.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:yelp_review/services/restaurant_catalog.dart';
 
-class MockTourCubit extends MockCubit<TourState> implements TourCubit {}
+import '../mock_repo.dart';
+
+class MockTourCubit extends Mock implements TourCubit {
+  @override
+  Future<void> close() {
+    return Future.value();
+  }
+}
 
 void main() {
+  final mockRepo = MockGQLCall();
   late RestaurantCatalog mockCatalog;
 
   setUp(
         () {
-          isTestMode = true;
+      getIt.registerSingleton<GraphQLCall>(mockRepo);
       Businesses mockBusinesses = Businesses(
         rating: 4.5,
         price: '\$',
@@ -36,13 +45,44 @@ void main() {
   testGoldens(
     'Loading Screen',
         (tester) async {
-      MockTourCubit mockTour = MockTourCubit();
-      when(() => mockTour.load()).thenAnswer((_) async {});
+      MockTourCubit mockCubit = MockTourCubit();
+      getIt.registerSingleton<TourCubit>(mockCubit);
+      when(() => mockCubit.state).thenAnswer((_) => TourLoadingState());
 
       final builder = DeviceBuilder();
 
       whenListen(
-        mockTour,
+        mockCubit,
+        Stream.fromIterable(
+          [
+            TourLoadingState(),
+          ],
+        ),
+        initialState: TourLoadingState(),
+      );
+
+      builder.addScenario(
+        name: 'Loaded',
+        widget: const TourScreen(),
+      );
+
+      await tester.pumpDeviceBuilder(builder);
+
+      await screenMatchesGolden(tester, 'tour_loading_screen');
+    },
+  );
+
+  testGoldens(
+    'Loaded Screen',
+        (tester) async {
+      MockTourCubit mockCubit = MockTourCubit();
+      getIt.registerSingleton<TourCubit>(mockCubit);
+      //when(() => mockCubit.load()).thenAnswer((_) async {});
+
+      final builder = DeviceBuilder();
+
+      whenListen(
+        mockCubit,
         Stream.fromIterable(
           [
             TourLoadingState(),
@@ -54,12 +94,43 @@ void main() {
 
       builder.addScenario(
         name: 'Loaded',
-        widget: TourScreen(cubit: mockTour),
+        widget: const TourScreen(),
       );
 
       await tester.pumpDeviceBuilder(builder);
 
       await screenMatchesGolden(tester, 'tour_loaded_screen');
+    },
+  );
+
+  testGoldens(
+    'Error Screen',
+        (tester) async {
+      MockTourCubit mockCubit = MockTourCubit();
+      getIt.registerSingleton<TourCubit>(mockCubit);
+      when(() => mockCubit.load()).thenAnswer((_) async {});
+
+      final builder = DeviceBuilder();
+
+      whenListen(
+        mockCubit,
+        Stream.fromIterable(
+          [
+            TourLoadingState(),
+            TourErrorState(),
+          ],
+        ),
+        initialState: TourLoadingState(),
+      );
+
+      builder.addScenario(
+        name: 'Error',
+        widget: const TourScreen(),
+      );
+
+      await tester.pumpDeviceBuilder(builder);
+
+      await screenMatchesGolden(tester, 'tour_error_screen');
     },
   );
 }

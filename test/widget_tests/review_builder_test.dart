@@ -10,7 +10,7 @@ void main() {
       body: ListView.builder(
           itemCount: 3,
           shrinkWrap: true,
-          //physics: const ClampingScrollPhysics(),
+          physics: const ClampingScrollPhysics(),
           itemBuilder: (_, index) {
             return ListTile(
               title: Column(

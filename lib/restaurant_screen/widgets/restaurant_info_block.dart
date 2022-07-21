@@ -3,6 +3,8 @@ import 'package:yelp_review/restaurant_screen/widgets/google_map_window.dart';
 import 'package:yelp_review/restaurant_screen/widgets/yelp_divider.dart';
 import 'package:yelp_review/services/restaurant_data.dart';
 
+import '../../main.dart';
+
 
 class RestaurantInfoBlock extends StatelessWidget {
   final String name;
@@ -47,7 +49,11 @@ class RestaurantInfoBlock extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
+        isTestMode ? Container(
+          height: 350,
+          width: 350,
+          color: Colors.red,
+        ) : Padding(
           padding: EdgeInsets.only(
             left: paddingAmount,
             right: paddingAmount,
