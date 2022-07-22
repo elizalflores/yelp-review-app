@@ -1,7 +1,6 @@
-import 'package:bloc_test/bloc_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
+import 'package:yelp_review/main.dart';
 import 'package:yelp_review/services/dependency_locator.dart';
-import 'package:yelp_review/restaurant_screen/restaurant_cubit.dart';
 
 import 'package:mocktail/mocktail.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,13 +10,6 @@ import 'package:yelp_review/services/restaurant_repository.dart';
 import 'package:yelp_review/services/restaurant_reviews.dart';
 
 import '../mock_repo.dart';
-
-class MockRestaurantCubit extends Mock implements RestaurantCubit {
-  @override
-  Future<void> close() {
-    return Future.value();
-  }
-}
 
 void main() {
   final mockRepo = MockRESTCall();
@@ -78,27 +70,22 @@ void main() {
     );
   });
 
+  tearDown(() {
+    mockLoading = false;
+  });
+
   testGoldens(
     'Loading Screen',
         (tester) async {
-      MockRestaurantCubit mockCubit = MockRestaurantCubit();
-      getIt.registerSingleton<RestaurantCubit>(mockCubit);
-      when(() => mockCubit.state).thenAnswer((_) => RestaurantLoadingState());
+      mockLoading = true;
+
+      when(() => mockRepo.fetchRestaurant(any())).thenAnswer((_) => Future.value(mockRestaurant));
+      when(() => mockRepo.fetchReviews(any())).thenAnswer((_) => Future.value(mockReviews));
 
       final builder = DeviceBuilder();
 
-      whenListen(
-        mockCubit,
-        Stream.fromIterable(
-          [
-            RestaurantLoadingState(),
-          ],
-        ),
-        initialState: RestaurantLoadingState(),
-      );
-
       builder.addScenario(
-        name: 'Loaded',
+        name: 'Loading',
         widget: RestaurantScreen(alias: mockRestaurant.categories.first.alias,),
       );
 
@@ -111,25 +98,10 @@ void main() {
   testGoldens(
     'Loaded Screen',
         (tester) async {
-      MockRestaurantCubit mockCubit = MockRestaurantCubit();
-      getIt.registerSingleton<RestaurantCubit>(mockCubit);
-      when(() => mockCubit.load(alias: any(named:'alias'))).thenAnswer((_) async {});
+      when(() => mockRepo.fetchRestaurant(mockRestaurant.categories.first.alias)).thenAnswer((_) => Future.value(mockRestaurant));
+      when(() => mockRepo.fetchReviews(mockRestaurant.categories.first.alias)).thenAnswer((_) => Future.value(mockReviews));
 
       final builder = DeviceBuilder();
-
-      whenListen(
-        mockCubit,
-        Stream.fromIterable(
-          [
-            RestaurantLoadingState(),
-            RestaurantLoadedState(
-              restaurant: mockRestaurant,
-              reviews: mockReviews,
-            ),
-          ],
-        ),
-        initialState: RestaurantLoadingState(),
-      );
 
       builder.addScenario(
         name: 'Loaded',
@@ -145,22 +117,9 @@ void main() {
   testGoldens(
     'Error Screen',
         (tester) async {
-      MockRestaurantCubit mockCubit = MockRestaurantCubit();
-      getIt.registerSingleton<RestaurantCubit>(mockCubit);
-      when(() => mockCubit.load(alias: any(named:'alias'))).thenAnswer((_) async {});
+      when(() => mockRepo.fetchRestaurant(any())).thenThrow(Error());
 
       final builder = DeviceBuilder();
-
-      whenListen(
-        mockCubit,
-        Stream.fromIterable(
-          [
-            RestaurantLoadingState(),
-            RestaurantErrorState(),
-          ],
-        ),
-        initialState: RestaurantLoadingState(),
-      );
 
       builder.addScenario(
         name: 'Error',

@@ -3,6 +3,7 @@ import 'package:yelp_review/services/restaurant_data.dart';
 import 'package:yelp_review/services/restaurant_repository.dart';
 import 'package:yelp_review/services/restaurant_reviews.dart';
 
+import '../main.dart';
 import '../services/dependency_locator.dart';
 
 abstract class RestaurantState {}
@@ -27,6 +28,10 @@ class RestaurantCubit extends Cubit<RestaurantState> {
   RestaurantCubit() : super(RestaurantLoadingState());
 
   void load({required String alias}) async {
+    if (mockLoading) {
+      emit(RestaurantLoadingState());
+      return;
+    }
     emit(RestaurantLoadingState());
     if(alias.isEmpty) {
       emit(RestaurantErrorState());

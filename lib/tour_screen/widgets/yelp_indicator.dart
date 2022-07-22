@@ -15,9 +15,9 @@ class YelpIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isTestMode ? const Icon(
-      Icons.circle,
-      color: Colors.red,
+    return mockLoading ? const Icon(
+      Icons.refresh,
+      color: Colors.blue,
     ) : RefreshIndicator(
         onRefresh: onRefresh,
         child: child,

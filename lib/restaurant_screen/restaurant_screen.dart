@@ -7,9 +7,8 @@ import 'package:yelp_review/restaurant_screen/widgets/restaurant_info_block.dart
 import 'package:yelp_review/restaurant_screen/widgets/review_builder.dart';
 import 'package:yelp_review/restaurant_screen/widgets/yelp_divider.dart';
 import 'package:yelp_review/restaurant_app_bar.dart';
-import 'package:yelp_review/tour_screen/widgets/yelp_indicator.dart';
 
-import '../services/dependency_locator.dart';
+import '../main.dart';
 
 class RestaurantScreen extends StatefulWidget {
   final String alias;
@@ -29,12 +28,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.white,
       body: BlocProvider(
         create: (_) => RestaurantCubit()..load(alias: widget.alias,),
         child: BlocBuilder<RestaurantCubit, RestaurantState>(
           builder: (context, state) {
-            return YelpIndicator(
+            return RefreshIndicator(
               onRefresh: () async {
                 context.read<RestaurantCubit>().load(alias: widget.alias);
               }, //state check
@@ -100,8 +99,11 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                     const SizedBox(
                       height: 360,
                     ),
-                    const Center(
-                      child: CircularProgressIndicator(),
+                    Center(
+                      child: mockLoading ? const Icon(
+                        Icons.refresh,
+                        color: Colors.blue,
+                      ) : const CircularProgressIndicator(),
                     ),
                   ],
                 ],

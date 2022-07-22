@@ -5,6 +5,7 @@ import 'services/dependency_locator.dart';
 
 
 var isTestMode = false;
+var mockLoading = false;
 
 void main() {
   setupDependencies();

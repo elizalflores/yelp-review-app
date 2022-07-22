@@ -3,6 +3,7 @@ import 'package:yelp_review/services/GraphQL/gql_client.dart';
 import 'package:yelp_review/services/restaurant_catalog.dart';
 import'package:yelp_review/services/restaurant_repository.dart';//Used in REST Implementation
 
+import '../main.dart';
 import '../services/dependency_locator.dart';
 
 abstract class TourState {}
@@ -29,6 +30,10 @@ class TourCubit extends Cubit<TourState> {
   TourCubit() : super(TourLoadingState());
 
   void load() async {
+    if (mockLoading) {
+      emit(TourLoadingState());
+      return;
+    }
     emit(TourLoadingState());
     try {
       //GraphQL Implementation
