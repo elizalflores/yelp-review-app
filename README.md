@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 This mobile application uses both Yelp and Google Maps API requests. I have provided the boilerplates for the API requests and backing data models, so you will need to generate the following keys:
 
-#### Yelp
+### Yelp
 
 1. Go to https://www.yelp.com/developers and sign up for a developer account
 2. Follow the authentication guide on https://docs.developer.yelp.com/docs/fusion-intro and generate your API key
@@ -21,7 +21,7 @@ This mobile application uses both Yelp and Google Maps API requests. I have prov
 const yelpKey = 'YOUR KEY HERE';
 ```
 
-#### Google Maps
+### Google Maps
 
 Note: Some information comes from the README for [Google Maps for Flutter](https://pub.dev/packages/google_maps_flutter).
 
@@ -60,8 +60,42 @@ struct Constants {
 
 ## Features
 
-```
-```
+The app is comprised of 2 screens: the Tour Screen and Restaurant Screen. Both screens implement Bloc State Management and pull-to-refresh.
+
+#### Tour Screen
+
+#### Restaurant Screen
+
+
+## Testing
+
+There are 3 types of testing available: Golden (snapshot), Unit, and Widget tests.
+
+### Golden
+
+Golden tests generate a sample image of a screen, then compares the rendered screen (or widget) with the sample image. I have implemented goldens tests to verify rendering for both the Tour Screen & Restaurant Screen.
+
+#### Tour Screen Goldens
+![](https://imgur.com/XbvLf89.png)
+
+#### Restaurant Screen Goldens
+![](https://imgur.com/lEocmgs.png)
+
+### Unit
+
+Unit tests verify the behavior of a function, method, or class. I have implemented unit tests to verify the 3 states of each screen (the Error, Loading, and Loaded states). You can see each state of each screen in the Golden test images above.
+
+#### Widget
+
+Widget tests do exactly as they imply - they test a single widget for its functionality and appearance. I have implemented the following 2 widget tests:
+
+1. `restaurant_expansion_tile_test.dart`
+
+This tests the dropdown menu in the Restaurant Screen (that displays the restaurant's hours) to make sure the expansion tile generates & renders the correct hours for the restaurant. Some restaurants may have atypical schedules, so there are 2 tests: one to test when the hours are given and one when they are not (this data is based on the response from the Yelp API).
+
+2. `review_builder_test.dart` 
+
+This tests the reviews section in the Restaurant Screen to make sure the review tiles are generated & rendered.
 
 ## Built With
 
