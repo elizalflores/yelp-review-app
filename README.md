@@ -60,12 +60,19 @@ struct Constants {
 
 ## Features
 
-The app is comprised of 2 screens: the Tour Screen and Restaurant Screen. Both screens implement Bloc State Management and pull-to-refresh.
+The app is comprised of 2 screens: the Tour Screen and Restaurant Screen. Both screens implement Bloc State Management, pull-to-refresh, and use the Yelp API to display data.
 
-#### Tour Screen
+### Tour Screen
 
-#### Restaurant Screen
+The Tour Screen displays a list of nearby restaurants based on the phone's location by using the latitude & longitude coordinates. The restaurants are listed from closest to farthest, and each restaurant card displays its name, an image from the restaurant, price rating, food category, restaurant rating, and distance (in miles). 
 
+![](https://imgur.com/dDi1A8B.png)
+
+### Restaurant Screen
+
+The Restaurant Screen displays a detailed page of the selected restaurant. The top of the page renders an image carousel that contains 3 images of the restaurant. There is a dropdown menu that only displays the available restaurant days/hours - if there are unavailable days then the menu does not display them. Google Maps renders below the restaurant address and contains a button that, when pressed, recenters to the restaurant's location. The bottom section displays the overall rating of the restaurant and reviews people have given. The review tiles display a user's rating towards the restaurant, review text, and icon & username.
+
+![](https://imgur.com/w92R4fM.png)
 
 ## Testing
 
@@ -85,7 +92,7 @@ Golden tests generate a sample image of a screen, then compares the rendered scr
 
 Unit tests verify the behavior of a function, method, or class. I have implemented unit tests to verify the 3 states of each screen (the Error, Loading, and Loaded states). You can see each state of each screen in the Golden test images above.
 
-#### Widget
+### Widget
 
 Widget tests do exactly as they imply - they test a single widget for its functionality and appearance. I have implemented the following 2 widget tests:
 
